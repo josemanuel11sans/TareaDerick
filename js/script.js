@@ -52,7 +52,7 @@ function sumar() {
     if (!validarCampos(n1, n2)) return;
     n1 = parseFloat(n1);
     n2 = parseFloat(n2);
-    document.getElementById("resultado").innerText = n1 + n2;
+    document.getElementById("resultado").innerText = n1 + " + " + n2 + " = " + (n1 + n2);
 }
 
 // Función para restar
@@ -62,7 +62,7 @@ function restar() {
     if (!validarCampos(n1, n2)) return;
     n1 = parseFloat(n1);
     n2 = parseFloat(n2);
-    document.getElementById("resultado").innerText = n1 - n2;
+    document.getElementById("resultado").innerText = n1 + " - " + n2 + " = " + (n1 - n2);
 }
 
 // Función para multiplicar
@@ -72,7 +72,7 @@ function multiplicar() {
     if (!validarCampos(n1, n2)) return;
     n1 = parseFloat(n1);
     n2 = parseFloat(n2);
-    document.getElementById("resultado").innerText = n1 * n2;
+    document.getElementById("resultado").innerText = n1 + " x " + n2 + " = " + (n1 * n2);
 }
 
 // Función para dividir
@@ -96,7 +96,7 @@ function dividir() {
         document.getElementById("resultado").innerText = "";
         return;
     }
-    document.getElementById("resultado").innerText = n1 / n2;
+    document.getElementById("resultado").innerText = n1 + " / " + n2 + " = " + (n1 / n2);
 }
 
 // Función de exponentes
@@ -106,7 +106,7 @@ function exponente() {
     if (!validarCampos(n1, n2)) return;
     n1 = parseFloat(n1);
     n2 = parseFloat(n2);
-    document.getElementById("resultado").innerText = Math.pow(n1, n2);
+    document.getElementById("resultado").innerText = n1 + " ^ " + n2 + " = " + (Math.pow(n1, n2));
 }
 
 // Función de raíz cuadrada
@@ -128,5 +128,5 @@ function raizCuadrada() {
         document.getElementById("resultado").innerText = "";
         return;
     }
-    document.getElementById("resultado").innerText = Math.sqrt(n1);
+    document.getElementById("resultado").innerText = "√" + n1 + " = " + (Math.sqrt(n1));
 }
