@@ -16,6 +16,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    min-width: 50%;
 }
 
 .bloquePrincipal h1 {
@@ -31,3 +32,39 @@ body {
     margin: 5px;
 }
 
+.ancho {
+    width: 150px; /* Ancho fijo para los botones */
+}
+
+
+.form-group {
+    position: relative;
+    margin-top: 1.5rem;
+}   
+.form-group label {
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: -0.75rem;
+    left: 0.75rem;
+    padding: 0 0.25rem;
+    font-size: 0.85rem;
+    color: #495057;
+}
+.form-control {
+    
+    padding-top: 1.5rem;
+}
+
+/* responsivo */
+@media (max-width: 767.98px) {
+    .form-group label {
+        top: -0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .ancho {
+        width: 100px; /* Ancho fijo para los botones */
+       
+    }
+    
+}
