@@ -1,14 +1,13 @@
 body {
     background-image: url('https://wallpapers.com/images/hd/abstract-monochrome-math-8b5n86kizec5xm8r.jpg');
-    background-size: cover; /* Para que la imagen cubra todo el fondo */
-    background-position: center; /* Para centrar la imagen */
+    background-size: cover;
+    background-position: center; 
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
 }
-
 
 .bloquePrincipal {
     background: white;

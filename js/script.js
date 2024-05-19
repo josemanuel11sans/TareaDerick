@@ -1,26 +1,44 @@
-// Función de validación
 function validarCampos(n1, n2, requireTwoFields = true) {
     if (requireTwoFields && (n1 === '' || n2 === '')) {
-        swal("Uppps", "Por favor, llena ambos campos.", "error");
+        swal({
+            title: "Error",
+            text: "Por favor, llena ambos campos.",
+            icon: "error",
+            button: {
+                text: "Aceptar",
+                closeModal: true,
+            },
+        });
         return false;
     } else if (!requireTwoFields && n1 === '') {
-        swal("Uppps", "Por favor, llena el campo.", "error");
+        swal({
+            title: "Error",
+            text: "Por favor, llena el campo.",
+            icon: "error",
+            button: {
+                text: "Aceptar",
+                closeModal: true,
+            },
+        });
         return false;
     }
     
     if (isNaN(n1) || (requireTwoFields && isNaN(n2))) {
-        swal("Uppps", "Por favor, ingresa valores numéricos válidos.", "error");
+        swal({
+            title: "Error",
+            text: "Por favor, ingresa valores numéricos válidos.",
+            icon: "error",
+            button: {
+                text: "Aceptar",
+                closeModal: true,
+            },
+        });
         return false;
     }
-    
-    // Validar si son números negativos
-    // if (parseFloat(n1) < 0 || (requireTwoFields && parseFloat(n2) < 0)) {
-    //     swal("Uppps", "Por favor, ingresa valores positivos.", "error");
-    //     return false;
-    // }
 
     return true;
 }
+
 
 // Función para sumar
 function sumar() {
@@ -60,7 +78,15 @@ function dividir() {
     n1 = parseFloat(n1);
     n2 = parseFloat(n2);
     if (n2 == 0) {
-        swal("Uppps", "Recuerda que no puedes dividir entre cero", "error");
+        swal({
+            title: "Error",
+            text: "Recuerda que no puedes dividir entre cero",
+            icon: "error",
+            button: {
+                text: "Aceptar",
+                closeModal: true,
+            },
+        });
         document.getElementById("resultado").innerText = "";
         return;
     }
@@ -83,7 +109,15 @@ function raizCuadrada() {
     if (!validarCampos(n1, '', false)) return;
     n1 = parseFloat(n1);
     if (n1 < 0) {
-        swal("Uppps", "No se puede calcular la raíz cuadrada de un número negativo.", "error");
+        swal({
+            title: "Error",
+            text: "No se puede calcular la raíz cuadrada de un número negativo.",
+            icon: "error",
+            button: {
+                text: "Aceptar",
+                closeModal: true,
+            },
+        });
         document.getElementById("resultado").innerText = "";
         return;
     }
