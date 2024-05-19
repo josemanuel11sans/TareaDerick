@@ -3,22 +3,26 @@ function validarCampos(n1, n2, requireTwoFields = true) {
         swal({
             title: "Error",
             text: "Por favor, llena ambos campos.",
-            icon: "error",
+            icon: "warning",
             button: {
                 text: "Aceptar",
-                closeModal: true,
+                closeModal: true,   
+                className: "swal-button-centered"   
             },
+            timer: 3000,
         });
         return false;
     } else if (!requireTwoFields && n1 === '') {
         swal({
             title: "Error",
             text: "Por favor, llena el campo.",
-            icon: "error",
+            icon: "warning",
             button: {
                 text: "Aceptar",
                 closeModal: true,
+                className: "swal-button-centered" 
             },
+            timer: 3000,
         });
         return false;
     }
@@ -27,11 +31,12 @@ function validarCampos(n1, n2, requireTwoFields = true) {
         swal({
             title: "Error",
             text: "Por favor, ingresa valores numéricos válidos.",
-            icon: "error",
+            icon: "warning",
             button: {
                 text: "Aceptar",
                 closeModal: true,
             },
+            timer: 3000,
         });
         return false;
     }
@@ -81,11 +86,12 @@ function dividir() {
         swal({
             title: "Error",
             text: "Recuerda que no puedes dividir entre cero",
-            icon: "error",
+            icon: "warning",
             button: {
                 text: "Aceptar",
                 closeModal: true,
             },
+            timer: 3000,
         });
         document.getElementById("resultado").innerText = "";
         return;
@@ -112,11 +118,12 @@ function raizCuadrada() {
         swal({
             title: "Error",
             text: "No se puede calcular la raíz cuadrada de un número negativo.",
-            icon: "error",
+            icon: "warning",
             button: {
                 text: "Aceptar",
                 closeModal: true,
             },
+            timer: 3000,
         });
         document.getElementById("resultado").innerText = "";
         return;
