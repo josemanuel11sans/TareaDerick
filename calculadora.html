@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Calculadora</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div>
+        <div class="col-md-12">   
+            <div class="bloquePrincipal">
+                <h1 id="titulo">Calculadora usando los elementos del <b>DOM</b> y <b>JS</b></h1>
+                <div class="form-group">
+                    <input id="n1" class="form-control" type="text" placeholder="Introduce número 1" />
+                </div>
+                <div class="form-group">
+                    <input id="n2" class="form-control" type="text" placeholder="Introduce número 2" />
+                </div>
+                <div class="form-group">
+                    <b>Resultado: <p id="resultado"></p></b>
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="sumar();">SUMAR</button>
+                    <button class="btn btn-secondary" onclick="restar();">RESTAR</button>
+                    <button class="btn btn-success" onclick="multiplicar();">MULTIPLICAR</button>
+                    <button class="btn btn-danger" onclick="dividir();">DIVIDIR</button>
+                    <button class="btn btn-warning" onclick="exponente();">EXPONENTE</button>
+                    <button class="btn btn-info" onclick="raizCuadrada();">RAÍZ CUADRADA</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="js/script.js"></script>
+</body>
+</html>
+

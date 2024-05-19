@@ -1,0 +1,33 @@
+body {
+    background-image: url('https://wallpapers.com/images/hd/abstract-monochrome-math-8b5n86kizec5xm8r.jpg');
+    background-size: cover; /* Para que la imagen cubra todo el fondo */
+    background-position: center; /* Para centrar la imagen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+
+.bloquePrincipal {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.bloquePrincipal h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.bloquePrincipal input[type="text"] {
+    margin-bottom: 10px;
+}
+
+.bloquePrincipal .btn {
+    margin: 5px;
+}
+

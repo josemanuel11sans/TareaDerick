@@ -1,2 +1,0 @@
-# cosas
-trabajos apps web
