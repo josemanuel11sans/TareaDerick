@@ -1,46 +1,49 @@
 function validarCampos(n1, n2, requireTwoFields = true) {
     if (requireTwoFields && (n1 === '' || n2 === '')) {
-        swal({
+        Swal.fire({
             title: "Error",
             text: "Por favor, llena ambos campos.",
             icon: "warning",
-            button: {
-                text: "Aceptar",
-                closeModal: true,   
-                className: "swal-button-centered"   
-            },
+            background: 'black',
+            color: 'white',
+            confirmButtonColor: '#3498DB',
+            confirmButtonText: "Aceptar",
+            customClass: {
+                confirmButton: "swal-button-centered"
+            }
         });
         return false;
     } else if (!requireTwoFields && n1 === '') {
-        swal({
+        Swal.fire({
             title: "Error",
             text: "Por favor, llena el campo.",
             icon: "warning",
-            button: {
-                text: "Aceptar",
-                closeModal: true,
-                className: "swal-button-centered" 
-            },
+            background: 'black',
+            color: 'white',
+            confirmButtonColor: '#3498DB',
+            confirmButtonText: "Aceptar",
+            customClass: {
+                confirmButton: "swal-button-centered"
+            }
         });
         return false;
     }
     
     if (isNaN(n1) || (requireTwoFields && isNaN(n2))) {
-        swal({
+        Swal.fire({
             title: "Error",
             text: "Por favor, ingresa valores numéricos válidos.",
             icon: "warning",
-            button: {
-                text: "Aceptar",
-                closeModal: true,
-            },
+            background: 'black',
+            color: 'white',
+            confirmButtonColor: '#3498DB',
+            confirmButtonText: "Aceptar",
         });
         return false;
     }
 
     return true;
 }
-
 
 // Función para sumar
 function sumar() {
@@ -80,15 +83,14 @@ function dividir() {
     n1 = parseFloat(n1);
     n2 = parseFloat(n2);
     if (n2 == 0) {
-        swal({
+        Swal.fire({
             title: "Error",
-            text: "Recuerda que no puedes dividir entre cero",
+            text: "Recuerda que no puedes dividir entre cero.",
             icon: "warning",
-            button: {
-                text: "Aceptar",
-                closeModal: true,
-            },
-            timer: 3000,
+            background: 'black',
+            color: 'white',
+            confirmButtonColor: '#3498DB',
+            confirmButtonText: "Aceptar",
         });
         document.getElementById("resultado").innerText = "";
         return;
@@ -112,15 +114,12 @@ function raizCuadrada() {
     if (!validarCampos(n1, '', false)) return;
     n1 = parseFloat(n1);
     if (n1 < 0) {
-        swal({
+        Swal.fire({
             title: "Error",
             text: "No se puede calcular la raíz cuadrada de un número negativo.",
             icon: "warning",
-            button: {
-                text: "Aceptar",
-                closeModal: true,
-            },
-            timer: 3000,
+            confirmButtonText: "Aceptar",
+            timer: 3000
         });
         document.getElementById("resultado").innerText = "";
         return;
@@ -128,27 +127,27 @@ function raizCuadrada() {
     document.getElementById("resultado").innerText = "√" + n1 + " = " + (Math.sqrt(n1));
 }
 
-
 // Equipo
 function equipo(ap1, app1, nom1, ap2, app2, nom2, ap3, app3, nom3, ap4, app4, nom4, ap5, app5, nom5, ap6, app6, nom6) {
     console.log("Hola " + ap1 + " " + app1 + " " + nom1 + " " + ap2 + " " + app2 + " " + nom2 + ap3 + " " + app3 + " " + nom3 + " " + ap4 + " " + app4 + " " + nom4 + ap5 + " " + app5 + " " + nom5 + " " + ap6 + " " + app6 + " " + nom6);
     
-    swal({
+    Swal.fire({
         title: 'Autores de la página:',
-        content: {
-            element: "div",
-            attributes: {
-                innerHTML: `${ap1} ${app1} ${nom1}<br>${ap2} ${app2} ${nom2}<br>${ap3} ${app3} ${nom3}<br>${ap4} ${app4} ${nom4}<br>${ap5} ${app5} ${nom5}<br>${ap6} ${app6} ${nom6}`
-            },
-        },
-        icon: 'info',
-        button: {
-            text: "Aceptar",
-            value: true,
-            visible: true,
-            className: "btn btn-primary"
+        html: `${ap1} ${app1} ${nom1}<br>${ap2} ${app2} ${nom2}<br>${ap3} ${app3} ${nom3}<br>${ap4} ${app4} ${nom4}<br>${ap5} ${app5} ${nom5}<br>${ap6} ${app6} ${nom6}`,   
+        imageUrl: 'img/logo.png',
+        imageWidth: 200,
+        imageHeight: 200,
+        imageAlt: 'Img',
+        background: 'black',
+        color: 'white',
+        confirmButtonColor: '#3498DB',
+        confirmButtonText: "Aceptar",
+        customClass: {
+            confirmButton: "btn btn-primary",
+            container: "custom-alert" 
         }
-    });
+    });    
+    
 }
 
 //Funcion Borrar o Limpiar
