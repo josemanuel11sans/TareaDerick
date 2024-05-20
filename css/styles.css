@@ -130,3 +130,7 @@ footer{
 .swal2-popup {
     border: 2px solid #3498DB !important; 
 }
+
+#tamaño{
+        height: 100vh !important;
+}
