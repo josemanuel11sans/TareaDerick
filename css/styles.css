@@ -1,5 +1,5 @@
 body {
-    background-image: url('https://wallpapers.com/images/hd/abstract-monochrome-math-8b5n86kizec5xm8r.jpg');
+    background-image: url(../img/fondo.jpg);
     background-size: cover;
     background-position: center; 
     display: flex;
@@ -90,8 +90,9 @@ header{
     }
 
     img{
-        height: 80px;
+        max-height: 4rem;
         align-items: center;
+        cursor: pointer;
     }
 }
 

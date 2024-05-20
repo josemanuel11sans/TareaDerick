@@ -124,7 +124,7 @@ function raizCuadrada() {
         document.getElementById("resultado").innerText = "";
         return;
     }
-    document.getElementById("resultado").innerText = "√" + n1 + " = " + (Math.sqrt(n1));
+    let quitar = document.getElementById("remove");
 }
 
 // Equipo
