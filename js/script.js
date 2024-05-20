@@ -150,3 +150,10 @@ function equipo(ap1, app1, nom1, ap2, app2, nom2, ap3, app3, nom3, ap4, app4, no
         }
     });
 }
+
+//Funcion Borrar o Limpiar
+function borrar() {
+    document.getElementById("n1").value = '';
+    document.getElementById("n2").value = '';
+    document.getElementById("resultado").innerText = '';
+}

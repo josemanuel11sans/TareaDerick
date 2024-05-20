@@ -27,11 +27,7 @@ body {
 }
 
 .bloquePrincipal input[type="text"] {
-    margin-bottom: 10px;
-}
-
-.bloquePrincipal .btn {
-    margin: 5px;
+    margin-bottom: 20px;
 }
 
 .ancho {
@@ -41,7 +37,7 @@ body {
 
 .form-group {
     position: relative;
-    margin-top: 1.5rem;
+    margin-top: 10px;
 }   
 .form-group label {
     background-color: rgb(255, 255, 255);
@@ -122,4 +118,11 @@ footer{
 
 .container{
     max-width: 600px !important;
+}
+
+.delete{
+    button{
+        width: auto;
+        padding: 10px 20px;
+    }
 }
