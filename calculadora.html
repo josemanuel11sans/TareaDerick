@@ -14,21 +14,22 @@
 </head>
 <body>
     <header class="header">
-        <img src="img/logo.png" alt="" srcset="">
-        <h1>Calculadora Activos</h1>
+        <div class="col-md-2">
+            <img src="img/logo.png">	
+        </div>
+        <div class="col-md-8"><br>
+            <h3><b>Calculadora - Activos</b></h3>
+        </div>
+        <div class="col-md-2">
+            <img src="img/logo.png">	
+        </div>
     </header>
     
     <div class="container">
-        <div class="row justify-content-center ">
+        <div class="row justify-content-center">
             
                 <div class="bloquePrincipal">
                     <h1 id="titulo">Calculadora usando los elementos del <b>DOM</b> y <b>JS</b></h1>
-                    <!-- <div class="form-group">
-                    <input id="n1" class="form-control" type="text" placeholder="Introduce número 1" />
-                </div>
-                <div class="form-group">
-                    <input id="n2" class="form-control" type="text" placeholder="Introduce número 2" />
-                </div> -->
 
                     <div class="form-group">
                         <label for="input1">Numero Uno</label>
@@ -74,26 +75,16 @@
         </div>
     </div>
 
+    <br>
     <footer>
-        <h2>Integrantes:</h2>
-        <ul>
-            <div class="uno">
-                <li>Jose Manuel Sanchez Saldaña</li>
-                <li>Bigvai Jatniel Villanueva Miranda</li>
-            </div>
-            <div class="dos">
-                <li>Antonio Garcia Gonzalez</li>
-                <li>Orlando Ruiz Santos</li>
-            </div>
-            <div class="tres">
-                <li>Juan Jose Diaz Barroso</li>
-                <li>Angel Ivan Ortega Chavarria</li>
-            </div>
-        </ul>
+        <div class="col-md-12">
+            <img onclick='equipo("Ruiz","Santos","Orlando", "Sanchez","Saldaña","José", "Garcia","Gonzalez","Antonio", "Diaz","Barroso","Juan", "Villanueva","Miranda","Bigvai", "Ortega","Chavarria","Ivan")' src="https://images.vexels.me/media/users/3/137047/isolated/preview/5831a17a290077c646a48c4db78a81bb-user-profile-blue-icon.png" width="40" height="40" align="right">
+        </div>
     </footer>
 
 
     <script src="js/script.js"></script>
+
 </body>
 
 </html>

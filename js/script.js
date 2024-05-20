@@ -9,7 +9,6 @@ function validarCampos(n1, n2, requireTwoFields = true) {
                 closeModal: true,   
                 className: "swal-button-centered"   
             },
-            timer: 3000,
         });
         return false;
     } else if (!requireTwoFields && n1 === '') {
@@ -22,7 +21,6 @@ function validarCampos(n1, n2, requireTwoFields = true) {
                 closeModal: true,
                 className: "swal-button-centered" 
             },
-            timer: 3000,
         });
         return false;
     }
@@ -36,7 +34,6 @@ function validarCampos(n1, n2, requireTwoFields = true) {
                 text: "Aceptar",
                 closeModal: true,
             },
-            timer: 3000,
         });
         return false;
     }
@@ -129,4 +126,27 @@ function raizCuadrada() {
         return;
     }
     document.getElementById("resultado").innerText = "√" + n1 + " = " + (Math.sqrt(n1));
+}
+
+
+// Equipo
+function equipo(ap1, app1, nom1, ap2, app2, nom2, ap3, app3, nom3, ap4, app4, nom4, ap5, app5, nom5, ap6, app6, nom6) {
+    console.log("Hola " + ap1 + " " + app1 + " " + nom1 + " " + ap2 + " " + app2 + " " + nom2 + ap3 + " " + app3 + " " + nom3 + " " + ap4 + " " + app4 + " " + nom4 + ap5 + " " + app5 + " " + nom5 + " " + ap6 + " " + app6 + " " + nom6);
+    
+    swal({
+        title: 'Autores de la página:',
+        content: {
+            element: "div",
+            attributes: {
+                innerHTML: `${ap1} ${app1} ${nom1}<br>${ap2} ${app2} ${nom2}<br>${ap3} ${app3} ${nom3}<br>${ap4} ${app4} ${nom4}<br>${ap5} ${app5} ${nom5}<br>${ap6} ${app6} ${nom6}`
+            },
+        },
+        icon: 'info',
+        button: {
+            text: "Aceptar",
+            value: true,
+            visible: true,
+            className: "btn btn-primary"
+        }
+    });
 }
