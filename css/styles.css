@@ -113,4 +113,13 @@ footer{
     flex-direction: column;
     bottom: 0;
     width: 100%;
+    div{
+        img{
+            cursor: pointer;
+        }
+    }
 }   
+
+.container{
+    max-width: 800px !important;
+}
