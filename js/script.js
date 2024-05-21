@@ -108,11 +108,23 @@ function exponente() {
     document.getElementById("resultado").innerText = n1 + " ^ " + n2 + " = " + (Math.pow(n1, n2));
 }
 
-// Función de raíz cuadrada
+    // Función de raíz cuadrada
+
 function raizCuadrada() {
     let n1 = document.getElementById("n1").value;
-    if (!validarCampos(n1, '', false)) return;
+    if (!validarCampos(n1, '', false)) return; 
     n1 = parseFloat(n1);
+    if (isNaN(n1)) {
+        Swal.fire({
+            title: "Error",
+            text: "Por favor, ingresa un número válido.",
+            icon: "warning",
+            confirmButtonText: "Aceptar",
+            timer: 3000
+        });
+        document.getElementById("resultado").innerText = "";
+        return;
+    }
     if (n1 < 0) {
         Swal.fire({
             title: "Error",
@@ -124,8 +136,15 @@ function raizCuadrada() {
         document.getElementById("resultado").innerText = "";
         return;
     }
+    let resultado = Math.sqrt(n1);
+    document.getElementById("resultado").innerText = "La raíz cuadrada de " + n1 + " es " + resultado;
+    // Eliminar elemento con id "remove" si es necesario
     let quitar = document.getElementById("remove");
+    if (quitar) {
+        quitar.remove();
+    }
 }
+
 
 // Equipo
 function equipo(ap1, app1, nom1, ap2, app2, nom2, ap3, app3, nom3, ap4, app4, nom4, ap5, app5, nom5, ap6, app6, nom6) {
