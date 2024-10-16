@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataTable con Botones</title>
+    <!-- Incluye jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Incluye DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <!-- Incluye Bootstrap para estilizar botones (opcional) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/F/style/Styleheader.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="/F/img/logo.png" alt="Logo">
+            </div>
+            <h1>Administrador de tareas</h1>
+        </header>
+        <br>
+        <div class="d-flex justify-content-center align-items-center ">
+            <div class="text-center">
+                <div class="btn-group mt-3" role="group" aria-label="Menú de opciones">
+                    <button type="button" class="btn btn-primary" id="mostrarTodas">Mostrar Todas</button>
+                    <button type="button" class="btn btn-primary" id="mostrarPendientes">Mostrar Pendientes</button>
+                    <button type="button" class="btn btn-primary" id="mostrarCompletadas">Mostrar Completadas</button>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <table id="miTabla" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+               <!-- aqui ponemos dianmicamnete el contenido -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Función que optiene las atreas 
+        async function obtenerTareas() {
+            try {
+                const response = await fetch('http://localhost:8080/tareas/all');
+                if (!response.ok) {
+                    throw new Error('respuesta no encontrada');
+                }
+                const tareas = await response.json();
+                mostrarTareas(tareas);
+            } catch (error) {
+                console.error('error al obtener las tareas:', error);
+            }
+        }
+
+        /*
+        
+        funcion que muestra las tareas en la tabla
+        */
+        function mostrarTareas(tareas) {
+            const tabla = document.getElementById('miTabla').getElementsByTagName('tbody')[0];
+            tabla.innerHTML = ''; // Limpiar la tabla antes de agregar nuevas filas
+
+            tareas.forEach(tarea => {
+                const fila = tabla.insertRow();
+                fila.insertCell(0).textContent = tarea.nombre;
+                fila.insertCell(1).textContent = tarea.descripcion;
+                fila.insertCell(2).textContent = tarea.fecha;
+
+                // Crear el botón para el estado
+                const estadoCelda = fila.insertCell(3);
+                const estadoBtn = document.createElement('button');
+                estadoBtn.className = 'btn btn-sm ' + (tarea.completada ? 'btn-success' : 'btn-danger') + ' estado-toggle';
+                estadoBtn.textContent = tarea.completada ? 'Encendido' : 'Apagado';
+                estadoBtn.onclick = function() {
+                    cambiarEstado(tarea); // Cambiar el estado de la tarea
+                };
+                estadoCelda.appendChild(estadoBtn);
+
+                // Crear los botones de editar y eliminar
+                const opcionesCelda = fila.insertCell(4);
+                const editarBtn = document.createElement('button');
+                editarBtn.className = 'btn btn-primary';
+                editarBtn.textContent = 'Editar';
+                editarBtn.onclick = function() {
+                    editarTarea(tarea); // Lógica para editar la tarea
+                };
+                
+                const eliminarBtn = document.createElement('button');
+                eliminarBtn.className = 'btn btn-danger';
+                eliminarBtn.textContent = 'Eliminar';
+                eliminarBtn.onclick = function() {
+                    eliminarTarea(tarea); // Lógica para eliminar la tarea
+                };
+
+                opcionesCelda.appendChild(editarBtn);
+                opcionesCelda.appendChild(eliminarBtn);
+            });
+        }
+
+        
+        function cambiarEstado(tarea) {
+            //falta
+        }
+
+       
+        function editarTarea(tarea) {
+            //falta
+            
+        }
+
+       
+        function eliminarTarea(tarea) {
+           //falta
+        }
+    
+        // Llamar a la función para obtener las tareas al cargar la página
+        window.onload = obtenerTareas;
+    </script>
+    <script src="/F/js/DataTableInicializacion.js"></script>
+    <script src="/F/js/EstadoBoton.js"></script>
+    <script src="/F/js/consumo.js"></script>
+
+    
+</body>
+
+</html>
+<!-- perdon por usa cdn, es pa mas rapido  -->
