@@ -3,12 +3,14 @@ package com.example.TareaListas.Listas.Control;
 
 import com.example.TareaListas.Listas.Model.Tarea;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/tareas")
+
 public class TareaController {
 
     @Autowired
@@ -56,6 +58,11 @@ public class TareaController {
     public List<Tarea> obtenerTareasPendientes() {
         return tareaService.obtenerTareasPendientes();
     }
+    //obtener tareas terminadas
+    @GetMapping("/listar-terminadas")
+    public List<Tarea> obtenerTareasTerminadas() {
+        return tareaService.obtenerTareasTerminadas();
+    }
 
     // Limpiar lista
     @DeleteMapping("/limpiar")
@@ -69,4 +76,17 @@ public class TareaController {
     public String exportarTareas() {
         return tareaService.exportarTareas();
     }
+
+    //cambiar estado de la tarea
+    @PutMapping("/cambiar-estado/{nombre}")
+    public ResponseEntity<String> cambiarEstado(@PathVariable String nombre){
+        return  tareaService.cambiarestado(nombre);
+    }
+    // Actualizar tarea
+    @PutMapping("/actualizar/{nombre}")
+    public ResponseEntity<String> actualizarTarea(@PathVariable String nombre, @RequestBody Tarea tareaActualizada) {
+        String resultado = tareaService.actualizarTarea(nombre, tareaActualizada);
+        return ResponseEntity.ok(resultado);
+    }
+
 }

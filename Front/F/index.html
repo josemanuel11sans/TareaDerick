@@ -12,9 +12,10 @@
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <!-- Incluye Bootstrap para estilizar botones (opcional) -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/F/style/Styleheader.css" />
-
 </head>
+
 
 <body>
     <div class="container">
@@ -28,17 +29,18 @@
         <div class="d-flex justify-content-center align-items-center">
             <div class="text-center">
                 <div class="btn-group mt-3" role="group" aria-label="Menú de opciones">
-                    <button type="button" class="btn btn-primary" id="mostrarTodas">
-                        Mostrar Todas
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#agregarTareaModal">
+                        Agregar tarea
                     </button>
-                    <button type="button" class="btn btn-primary" id="mostrarPendientes">
+                    <button type="button" class="btn btn-primary" id="mostrarPendientes" onclick="obtenerTareasPendintes()">
                         Mostrar Pendientes
                     </button>
-                    <button type="button" class="btn btn-primary" id="mostrarCompletadas">
+                    <button type="button" class="btn btn-primary" id="mostrarCompletadas" onclick="obtenerTareasterminadas()">
                         Mostrar Completadas
                     </button>
-
-                    <!-- se muestra eñ numero de tareas pendintes desde la api -->
+                    <button type="button" class="btn btn-primary" id="limpiarTareas">
+                        Limpiar Tareas
+                    </button>
                     <h4 id="numeroTareas"></h4>
                 </div>
             </div>
@@ -61,7 +63,101 @@
         </table>
     </div>
 
+    <div class="modal fade" id="agregarTareaModal" tabindex="-1" role="dialog" aria-labelledby="agregarTareaLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="agregarTareaLabel">
+                        Agregar nueva tarea
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formAgregarTarea">
+                        <div class="form-group">
+                            <label for="nombreTarea" class="col-form-label">Nombre de la tarea:</label>
+                            <input type="text" class="form-control" id="nombreTarea" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcionTarea" class="col-form-label">Descripción:</label>
+                            <textarea class="form-control" id="descripcionTarea" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="fechaTarea" class="col-form-label">Fecha de la tarea:</label>
+                            <input type="date" class="form-control" id="fechaTarea" required />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Cerrar
+                    </button>
+                    <button type="button" class="btn btn-primary" id="guardarTareaBtn">
+                        Agregar tarea
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        document
+            .getElementById("guardarTareaBtn")
+            .addEventListener("click", function () {
+                const nombre = document.getElementById("nombreTarea").value;
+                const descripcion = document.getElementById("descripcionTarea").value;
+                const fecha = document.getElementById("fechaTarea").value;
+
+                if (nombre && descripcion && fecha) {
+                    const nuevaTarea = {
+                        nombre: nombre,
+                        descripcion: descripcion,
+                        fecha: fecha,
+                        completada: false, // Nueva tarea siempre comienza como pendiente
+                    };
+
+                    console.log("Nueva tarea agregada:", nuevaTarea);
+
+                    // Llamamos a la función que envía la tarea al servidor
+                    agregarTareaAlServidor(nuevaTarea);
+
+                    // Cerrar el modal
+                    $("#agregarTareaModal").modal("hide");
+                } else {
+                    alert("Por favor, complete todos los campos.");
+                }
+            });
+    </script>
+
+    <script>
+        async function agregarTareaAlServidor(nuevaTarea) {
+            try {
+                const response = await fetch("http://localhost:8080/tareas/agregar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(nuevaTarea),
+                });
+
+                if (response.ok) {
+                    const result = await response.text();
+                    console.log("Tarea agregada exitosamente:", result);
+                    obtenerTareas();
+                } else {
+                    console.log("Error al agregar la tarea:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Hubo un error al conectar con el servidor:", error);
+            }
+            setTimeout(() => {
+                location.reload();
+            }, 1);
+        }
+
         // Función que optiene todas las tareas
         async function obtenerTareas() {
             try {
@@ -78,35 +174,70 @@
 
         //numero de tareas pendientes
         async function obtenerTareasPendientes() {
-            let cadenaTareas = ''; // Variable para guardar la cadena
-
+            let cadenaTareas = ""; // Variable para guardar la cadena
             try {
-                const response = await fetch('http://localhost:8080/tareas/pendientes');
+                const response = await fetch(
+                    "http://localhost:8080/tareas/pendientes"
+                );
                 if (!response.ok) {
-                    throw new Error('respuesta no encontrada');
+                    throw new Error("respuesta no encontrada");
                 }
 
                 // Obtener la cadena completa devuelta por la API
                 cadenaTareas = await response.text();
-
+                //  mostrarTareas(cadenaTareas)
                 // Mostrar la cadena en la consola
-                console.log('Cadena de la API:', cadenaTareas);
+                console.log("Cadena de la API:", cadenaTareas);
                 //en esta parte se  pone el el html eñ numero de tareas pendintes
-                document.getElementById('numeroTareas').textContent = cadenaTareas;
+                document.getElementById("numeroTareas").textContent = cadenaTareas;
             } catch (error) {
-                console.error('Error al obtener las tareas:', error);
+                console.error("Error al obtener las tareas:", error);
             }
 
             // Retornar o usar cadenaTareas en otras partes del código
             return cadenaTareas;
         }
         //solo se llama a la funcion
-        obtenerTareasPendientes();
+        // obtenerTareasPendientes();
 
+      //  Función que optiene todas las tareas
+        async function obtenerTareasPendintes() {
+            try {
+                const response = await fetch(
+                    "http://localhost:8080/tareas/listar-pendientes"
+                );
+                if (!response.ok) {
+                    throw new Error("respuesta no encontrada");
+                }
+                const tareas = await response.json();
+                mostrarTareas(tareas);
+            } catch (error) {
+                console.error("error al obtener las tareas:", error);
+            }
+        }
+       obtenerTareasPendientes();
+
+//listar tareas terminadas
+       async function obtenerTareasterminadas() {
+            try {
+                const response = await fetch(
+                    "http://localhost:8080/tareas/listar-terminadas"
+                );
+                if (!response.ok) {
+                    throw new Error("respuesta no encontrada");
+                }
+                const tareas = await response.json();
+                mostrarTareas(tareas);
+            } catch (error) {
+                console.error("error al obtener las tareas:", error);
+            }
+        }
+       obtenerTareasterminadas();
+        //solo se llama a la funcion
 
         /*
-          funcion que muestra las tareas en la tabla
-          */
+              funcion que muestra las tareas en la tabla
+              */
         function mostrarTareas(tareas) {
             const tabla = document
                 .getElementById("miTabla")
@@ -147,38 +278,148 @@
                 eliminarBtn.onclick = function () {
                     eliminarTarea(tarea.nombre); // Lógica para eliminar la tarea
                 };
-
                 opcionesCelda.appendChild(editarBtn);
                 opcionesCelda.appendChild(eliminarBtn);
             });
         }
 
-        function cambiarEstado(tarea) {
-            //falta
+        async function mostrarCompletadas(tarea) {
+            const tabla = document
+                .getElementById("miTabla")
+                .getElementsByTagName("tbody")[0];
+            tabla.innerHTML = ""; // Limpiar la tabla antes de agregar nuevas filas
+
+            if (tarea.completada) {
+                // Si la tarea está completada
+                tareas.forEach((tarea) => {
+                    const fila = tabla.insertRow();
+                    fila.insertCell(0).textContent = tarea.nombre;
+                    fila.insertCell(1).textContent = tarea.descripcion;
+                    fila.insertCell(2).textContent = tarea.fecha;
+
+                    // Crear el botón para el estado
+                    const estadoCelda = fila.insertCell(3);
+                    const estadoBtn = document.createElement("button");
+                    estadoBtn.className =
+                        "btn btn-sm " +
+                        (tarea.completada ? "btn-success" : "btn-danger") +
+                        " estado-toggle";
+                    estadoBtn.textContent = tarea.completada
+                        ? "Terminada"
+                        : " Pendiente";
+                    estadoBtn.onclick = function () {
+                        cambiarEstado(tarea); // Cambiar el estado de la tarea
+                    };
+                    estadoCelda.appendChild(estadoBtn);
+
+                    // Crear los botones de editar y eliminar
+                    const opcionesCelda = fila.insertCell(4);
+                    const editarBtn = document.createElement("button");
+                    editarBtn.className = "btn btn-primary";
+                    editarBtn.textContent = "Editar";
+                    editarBtn.onclick = function () {
+                        editarTarea(tarea); // Lógica para editar la tarea
+                    };
+
+                    const eliminarBtn = document.createElement("button");
+                    eliminarBtn.className = "btn btn-danger";
+                    eliminarBtn.textContent = "Eliminar";
+                    eliminarBtn.onclick = function () {
+                        eliminarTarea(tarea.nombre); // Lógica para eliminar la tarea
+                    };
+
+                    opcionesCelda.appendChild(editarBtn);
+                    opcionesCelda.appendChild(eliminarBtn);
+                });
+            }
         }
 
-        function editarTarea(tarea) {
-            //falta
+        async function cambiarEstado(tarea) {
+            if (tarea.completada) {
+                // Si la tarea está completada, cambiar su estado a pendiente
+                tarea.completada = false;
+                console.log("Tarea marcada como 'Pendiente'.");
+            }
+            if (!tarea.completada) {
+                // Si la tarea está pendiente, cambiar su estado a completada
+                tarea.completada = true;
+                console.log("Tarea marcada como 'Hecho'.");
+            }
+            const request = await fetch(
+                `http://localhost:8080/tareas/cambiar-estado/${tarea.nombre}`,
+                {
+                    method: "PUT",
+                }
+            );
+
+            const response = await request.text();
+            console.log(response);
+        }
+
+        async function editarTarea(tarea) {
+            // Pedir al usuario que ingrese nuevos valores para los campos de la tarea
+            const nuevoNombre = prompt("Editar nombre de la tarea:", tarea.nombre);
+            const nuevaDescripcion = prompt(
+                "Editar descripción de la tarea:",
+                tarea.descripcion
+            );
+            const nuevaFecha = prompt(
+                "Editar fecha de la tarea (YYYY-MM-DD):",
+                tarea.fecha
+            );
+
+            // Validar si se ingresaron valores
+            if (nuevoNombre && nuevaDescripcion && nuevaFecha) {
+                // Actualizar los valores de la tarea
+                const nombre = (tarea.nombre = nuevoNombre);
+                const descricpcion = (tarea.descripcion = nuevaDescripcion);
+                const fecha = (tarea.fecha = nuevaFecha);
+
+                console.log("Tarea editada exitosamente.");
+
+                const bodyRequest = {
+                    nombre: nombre,
+                    descripcion: descricpcion,
+                    fecha: fecha,
+                };
+                const request = await fetch(
+                    `http:localhost:8080/tareas/actualizar/${tarea.nombre}`,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        method: "PUT",
+                        body: JSON.stringify(bodyRequest),
+                    }
+                );
+                // Recargar la tabla o actualizar la UI si es necesario
+                obtenerTareas(); // Vuelve a cargar las tareas para reflejar los cambios en la tabla
+            } else {
+                console.log("Edición cancelada o valores no válidos.");
+            }
         }
 
         //eliminar tarea
         async function eliminarTarea(nombre) {
             try {
                 // Llamada al método DELETE de la API
-                const response = await fetch(`http://localhost:8080/tareas/eliminar/${nombre}`, {
-                    method: 'DELETE', // Especificar el método DELETE
-                });
+                const response = await fetch(
+                    `http://localhost:8080/tareas/eliminar/${nombre}`,
+                    {
+                        method: "DELETE", // Especificar el método DELETE
+                    }
+                );
 
                 // Verificar si la solicitud fue exitosa
                 if (!response.ok) {
-                    throw new Error('Error al eliminar la tarea');
+                    throw new Error("Error al eliminar la tarea");
                 }
 
                 // Obtener el mensaje de la respuesta
                 const mensaje = await response.text();
 
                 // Mostrar el mensaje en la consola o en la interfaz
-                console.log('Respuesta del servidor:', mensaje);
+                console.log("Respuesta del servidor:", mensaje);
                 // document.getElementById('resultadoEliminar').textContent = mensaje;
 
                 // Recargar la página si la tarea fue eliminada correctamente
@@ -186,24 +427,36 @@
                     // Esperar un segundo antes de recargar para que el usuario vea el mensaje
                     setTimeout(() => {
                         location.reload();
-                    }, 100); // Espera de 1 segundo
+                    }, 1);
                 }
-
             } catch (error) {
-                console.error('Error:', error);
+                console.error("Error:", error);
             }
         }
-
-
+        async function limpiarLista() {
+            const btnLimpiar = document.querySelector("#limpiarTareas");
+            btnLimpiar.addEventListener("click", async () => {
+                const request = await fetch("http://localhost:8080/tareas/limpiar", {
+                    method: "DELETE",
+                });
+                const response = await request.text();
+                console.log(response);
+                setTimeout(() => {
+                    location.reload();
+                }, 1);
+            });
+            // setTimeout(() => {
+            //     location.reload()
+            // }, 1);
+        }
+        limpiarLista();
+        // mostrarPendientes();
         // Llamar a la función para obtener las tareas al cargar la página
         window.onload = obtenerTareas;
-
     </script>
     <script src="/F/js/DataTableInicializacion.js"></script>
     <script src="/F/js/EstadoBoton.js"></script>
     <script src="/F/js/consumo.js"></script>
-
-
 </body>
 
 </html>
