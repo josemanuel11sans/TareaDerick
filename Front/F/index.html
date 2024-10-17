@@ -2,41 +2,50 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DataTable con Botones</title>
     <!-- Incluye jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Incluye DataTables -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <!-- Incluye Bootstrap para estilizar botones (opcional) -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/F/style/Styleheader.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/F/style/Styleheader.css" />
+
 </head>
 
 <body>
-
     <div class="container">
         <header>
             <div class="logo">
-                <img src="/F/img/logo.png" alt="Logo">
+                <img src="/F/img/logo.png" alt="Logo" />
             </div>
             <h1>Administrador de tareas</h1>
         </header>
-        <br>
-        <div class="d-flex justify-content-center align-items-center ">
+        <br />
+        <div class="d-flex justify-content-center align-items-center">
             <div class="text-center">
                 <div class="btn-group mt-3" role="group" aria-label="Menú de opciones">
-                    <button type="button" class="btn btn-primary" id="mostrarTodas">Mostrar Todas</button>
-                    <button type="button" class="btn btn-primary" id="mostrarPendientes">Mostrar Pendientes</button>
-                    <button type="button" class="btn btn-primary" id="mostrarCompletadas">Mostrar Completadas</button>
+                    <button type="button" class="btn btn-primary" id="mostrarTodas">
+                        Mostrar Todas
+                    </button>
+                    <button type="button" class="btn btn-primary" id="mostrarPendientes">
+                        Mostrar Pendientes
+                    </button>
+                    <button type="button" class="btn btn-primary" id="mostrarCompletadas">
+                        Mostrar Completadas
+                    </button>
+
+                    <!-- se muestra eñ numero de tareas pendintes desde la api -->
+                    <h4 id="numeroTareas"></h4>
                 </div>
             </div>
         </div>
-        <br>
+        <br />
 
-        <table id="miTabla" class="display" style="width:100%">
+        <table id="miTabla" class="display" style="width: 100%">
             <thead>
                 <tr>
                     <th>Nombre</th>
@@ -47,35 +56,64 @@
                 </tr>
             </thead>
             <tbody>
-               <!-- aqui ponemos dianmicamnete el contenido -->
+                <!-- aqui ponemos dianmicamnete el contenido -->
             </tbody>
         </table>
     </div>
 
     <script>
-        // Función que optiene las atreas 
+        // Función que optiene todas las tareas
         async function obtenerTareas() {
             try {
-                const response = await fetch('http://localhost:8080/tareas/all');
+                const response = await fetch("http://localhost:8080/tareas/all");
                 if (!response.ok) {
-                    throw new Error('respuesta no encontrada');
+                    throw new Error("respuesta no encontrada");
                 }
                 const tareas = await response.json();
                 mostrarTareas(tareas);
             } catch (error) {
-                console.error('error al obtener las tareas:', error);
+                console.error("error al obtener las tareas:", error);
             }
         }
 
-        /*
-        
-        funcion que muestra las tareas en la tabla
-        */
-        function mostrarTareas(tareas) {
-            const tabla = document.getElementById('miTabla').getElementsByTagName('tbody')[0];
-            tabla.innerHTML = ''; // Limpiar la tabla antes de agregar nuevas filas
+        //numero de tareas pendientes
+        async function obtenerTareasPendientes() {
+            let cadenaTareas = ''; // Variable para guardar la cadena
 
-            tareas.forEach(tarea => {
+            try {
+                const response = await fetch('http://localhost:8080/tareas/pendientes');
+                if (!response.ok) {
+                    throw new Error('respuesta no encontrada');
+                }
+
+                // Obtener la cadena completa devuelta por la API
+                cadenaTareas = await response.text();
+
+                // Mostrar la cadena en la consola
+                console.log('Cadena de la API:', cadenaTareas);
+                //en esta parte se  pone el el html eñ numero de tareas pendintes
+                document.getElementById('numeroTareas').textContent = cadenaTareas;
+            } catch (error) {
+                console.error('Error al obtener las tareas:', error);
+            }
+
+            // Retornar o usar cadenaTareas en otras partes del código
+            return cadenaTareas;
+        }
+        //solo se llama a la funcion
+        obtenerTareasPendientes();
+
+
+        /*
+          funcion que muestra las tareas en la tabla
+          */
+        function mostrarTareas(tareas) {
+            const tabla = document
+                .getElementById("miTabla")
+                .getElementsByTagName("tbody")[0];
+            tabla.innerHTML = ""; // Limpiar la tabla antes de agregar nuevas filas
+
+            tareas.forEach((tarea) => {
                 const fila = tabla.insertRow();
                 fila.insertCell(0).textContent = tarea.nombre;
                 fila.insertCell(1).textContent = tarea.descripcion;
@@ -83,28 +121,31 @@
 
                 // Crear el botón para el estado
                 const estadoCelda = fila.insertCell(3);
-                const estadoBtn = document.createElement('button');
-                estadoBtn.className = 'btn btn-sm ' + (tarea.completada ? 'btn-success' : 'btn-danger') + ' estado-toggle';
-                estadoBtn.textContent = tarea.completada ? 'Encendido' : 'Apagado';
-                estadoBtn.onclick = function() {
+                const estadoBtn = document.createElement("button");
+                estadoBtn.className =
+                    "btn btn-sm " +
+                    (tarea.completada ? "btn-success" : "btn-danger") +
+                    " estado-toggle";
+                estadoBtn.textContent = tarea.completada ? "Termianda" : " Pendinte";
+                estadoBtn.onclick = function () {
                     cambiarEstado(tarea); // Cambiar el estado de la tarea
                 };
                 estadoCelda.appendChild(estadoBtn);
 
                 // Crear los botones de editar y eliminar
                 const opcionesCelda = fila.insertCell(4);
-                const editarBtn = document.createElement('button');
-                editarBtn.className = 'btn btn-primary';
-                editarBtn.textContent = 'Editar';
-                editarBtn.onclick = function() {
+                const editarBtn = document.createElement("button");
+                editarBtn.className = "btn btn-primary";
+                editarBtn.textContent = "Editar";
+                editarBtn.onclick = function () {
                     editarTarea(tarea); // Lógica para editar la tarea
                 };
-                
-                const eliminarBtn = document.createElement('button');
-                eliminarBtn.className = 'btn btn-danger';
-                eliminarBtn.textContent = 'Eliminar';
-                eliminarBtn.onclick = function() {
-                    eliminarTarea(tarea); // Lógica para eliminar la tarea
+
+                const eliminarBtn = document.createElement("button");
+                eliminarBtn.className = "btn btn-danger";
+                eliminarBtn.textContent = "Eliminar";
+                eliminarBtn.onclick = function () {
+                    eliminarTarea(tarea.nombre); // Lógica para eliminar la tarea
                 };
 
                 opcionesCelda.appendChild(editarBtn);
@@ -112,30 +153,57 @@
             });
         }
 
-        
         function cambiarEstado(tarea) {
             //falta
         }
 
-       
         function editarTarea(tarea) {
             //falta
-            
         }
 
-       
-        function eliminarTarea(tarea) {
-           //falta
+        //eliminar tarea
+        async function eliminarTarea(nombre) {
+            try {
+                // Llamada al método DELETE de la API
+                const response = await fetch(`http://localhost:8080/tareas/eliminar/${nombre}`, {
+                    method: 'DELETE', // Especificar el método DELETE
+                });
+
+                // Verificar si la solicitud fue exitosa
+                if (!response.ok) {
+                    throw new Error('Error al eliminar la tarea');
+                }
+
+                // Obtener el mensaje de la respuesta
+                const mensaje = await response.text();
+
+                // Mostrar el mensaje en la consola o en la interfaz
+                console.log('Respuesta del servidor:', mensaje);
+                // document.getElementById('resultadoEliminar').textContent = mensaje;
+
+                // Recargar la página si la tarea fue eliminada correctamente
+                if (mensaje === "Tarea eliminada correctamente") {
+                    // Esperar un segundo antes de recargar para que el usuario vea el mensaje
+                    setTimeout(() => {
+                        location.reload();
+                    }, 100); // Espera de 1 segundo
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
-    
+
+
         // Llamar a la función para obtener las tareas al cargar la página
         window.onload = obtenerTareas;
+
     </script>
     <script src="/F/js/DataTableInicializacion.js"></script>
     <script src="/F/js/EstadoBoton.js"></script>
     <script src="/F/js/consumo.js"></script>
 
-    
+
 </body>
 
 </html>
