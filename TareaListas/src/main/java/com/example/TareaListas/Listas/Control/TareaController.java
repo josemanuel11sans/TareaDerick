@@ -3,6 +3,7 @@ package com.example.TareaListas.Listas.Control;
 
 import com.example.TareaListas.Listas.Model.Tarea;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,11 +83,16 @@ public class TareaController {
     public ResponseEntity<String> cambiarEstado(@PathVariable String nombre){
         return  tareaService.cambiarestado(nombre);
     }
-    // Actualizar tarea
     @PutMapping("/actualizar/{nombre}")
     public ResponseEntity<String> actualizarTarea(@PathVariable String nombre, @RequestBody Tarea tareaActualizada) {
+        // Verificar si la tarea con el nombre dado existe
         String resultado = tareaService.actualizarTarea(nombre, tareaActualizada);
-        return ResponseEntity.ok(resultado);
+
+        if (resultado.equals("Tarea no encontrada")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarea no encontrada");
+        }
+
+        return ResponseEntity.ok("Tarea actualizada exitosamente");
     }
 
 }

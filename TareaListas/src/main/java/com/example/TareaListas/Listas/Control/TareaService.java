@@ -85,7 +85,6 @@ public class TareaService {
         }
     }
 
-
     // Limpiar la lista de tareas
     public void limpiarLista() {
         listaDeTareas.clear();
@@ -105,7 +104,6 @@ public class TareaService {
         }
     }
 
-
     //actualiar tarea
     public String actualizarTarea(String nombre, Tarea tareaActualizada) {
         Tarea tareaExistente = verificarTarea(nombre);
@@ -113,7 +111,7 @@ public class TareaService {
             // Actualiza los detalles de la tarea existente
             tareaExistente.setDescripcion(tareaActualizada.getDescripcion());
             tareaExistente.setFecha(tareaActualizada.getFecha());
-            //tareaExistente.setNombre(tareaActualizada.getNombre());
+            tareaExistente.setNombre(tareaActualizada.getNombre());
             // Si necesitas actualizar el estado, puedes incluir lógica aquí
             return "Tarea actualizada exitosamente.";
         } else {
